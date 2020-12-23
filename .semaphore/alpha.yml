@@ -28,6 +28,6 @@ blocks:
             - npm run bump-version -- $VERSION-alpha
             - git tag v$VERSION-alpha && git push origin --tags
             - npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
-            - npm publish -tag alpha
+            - npm publish --access public -tag alpha
     skip:
       when: branch != 'main'
