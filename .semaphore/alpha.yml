@@ -13,6 +13,7 @@ blocks:
       secrets:
         - name: bc-git-secret
         - name: bc-npm-secret
+        - name: bc-msh-node-log-secret
       jobs:
         - name: Deploy
           commands:
