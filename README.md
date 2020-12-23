@@ -11,9 +11,32 @@ This project is intended to be used in typescript project to help with logging n
 
 <!-- toc -->
 
+- [Install](#install)
+- [Logger Strategy](#logger-strategy)
+  - [NoLogger](#nologger)
+  - [ConsoleLogger](#consolelogger)
+
 <!-- tocstop -->
 
 ## Install
 
 `npm i @beecode/msh-node-log`
 
+## Logger Strategy
+
+Define how and if we are logging.
+
+### NoLogger
+
+This is the default logging strategy, meaning the logging is ignored.
+
+### ConsoleLogger
+
+This is a simple logging strategy, it outputs all logs to console with a prefix of the log level (`ERROR:`, `WARN:`, `INFO:`
+, `DEBUG:`).
+
+```typescript
+import MshNodeEnv, { logger } from '@beecode/msh-node-env'
+
+const env = MshNodeEnv({ loggerStrategy: new logger.ConsoleLogger(logger.LogLevel.INFO) })
+```
