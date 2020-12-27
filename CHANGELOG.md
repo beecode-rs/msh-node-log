@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/beecode-rs/msh-node-log/compare/v1.0.0...v1.0.1) (2020-12-27)
+
+
+### Bug Fixes
+
+* update mock class ([2fbd16b](https://github.com/beecode-rs/msh-node-log/commit/2fbd16b32cd9e86a374187a3f815e612609a7eee))
+
 # 1.0.0 (2020-12-23)
 
 
