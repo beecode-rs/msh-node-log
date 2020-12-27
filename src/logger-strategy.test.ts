@@ -8,14 +8,17 @@ export interface MockLoggerStrategy {
   warn: SinonStub<any[], void>
 }
 
-export const mockLoggerStrategy = (sandbox: SinonSandbox): any =>
-  class implements LoggerStrategy, MockLoggerStrategy {
-    public stub_constructor = sandbox.stub()
+export const mockLoggerStrategy = (sandbox: SinonSandbox): any => {
+  const stub_constructor = sandbox.stub()
+  return class implements LoggerStrategy, MockLoggerStrategy {
+    public static STUB_CONSTRUCTOR = stub_constructor
     public constructor(...args: any[]) {
-      this.stub_constructor(...args)
+      stub_constructor(...args)
     }
+
     public debug = sandbox.stub()
     public error = sandbox.stub()
     public info = sandbox.stub()
     public warn = sandbox.stub()
   }
+}
