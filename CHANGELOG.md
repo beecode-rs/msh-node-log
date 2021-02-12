@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/beecode-rs/msh-node-log/compare/v1.0.3...v1.0.4) (2021-02-12)
+
+
+### Bug Fixes
+
+* husky publish problem ([27fd958](https://github.com/beecode-rs/msh-node-log/commit/27fd958fd6cbe8c542ba61826922f19c196bd6bb))
+
 ## [1.0.3](https://github.com/beecode-rs/msh-node-log/compare/v1.0.2...v1.0.3) (2021-02-12)
 
 
