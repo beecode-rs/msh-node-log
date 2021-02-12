@@ -93,7 +93,7 @@
     "postinstall": "husky install",
     "postpublish": "pinst --enable",
     "preinstall": "npx npm-force-resolutions",
-    "prepublishOnly": "pinst --disable",
+    "prepublish": "pinst --disable",
     "prettier": "prettier --check \"./src/**/*.{ts,json}\"",
     "prettier:fix": "prettier --write \"./src/**/*.{ts,json}\"",
     "semantic-release": "semantic-release",
