@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/beecode-rs/msh-node-log/compare/v1.0.1...v1.0.2) (2021-02-12)
+
+
+### Bug Fixes
+
+* update husky to v5 ([8103631](https://github.com/beecode-rs/msh-node-log/commit/8103631d9d000f2839d179572f8c010460d5b678))
+
 ## [1.0.1](https://github.com/beecode-rs/msh-node-log/compare/v1.0.0...v1.0.1) (2020-12-27)
 
 
