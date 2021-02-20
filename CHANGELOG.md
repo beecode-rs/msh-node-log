@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/beecode-rs/msh-node-log/compare/v1.0.4...v1.1.0) (2021-02-20)
+
+
+### Features
+
+* logger accepts object ([c344beb](https://github.com/beecode-rs/msh-node-log/commit/c344beb49f8dd3bbf2124e853bc2e338bbd883bb))
+
 ## [1.0.4](https://github.com/beecode-rs/msh-node-log/compare/v1.0.3...v1.0.4) (2021-02-12)
 
 
