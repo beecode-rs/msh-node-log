@@ -7,38 +7,38 @@ describe('logger - ConsoleLogger', () => {
 
   describe('constructor', () => {
     it('should set default log level', () => {
-      expect(defaultLogger['__logLevel']).to.equal(LogLevel.ERROR)
+      expect(defaultLogger['_logLevel']).to.equal(LogLevel.ERROR)
     })
     it('should set log level passed through constructor', () => {
       const infoLogger = new ConsoleLogger(LogLevel.INFO)
-      expect(infoLogger['__logLevel']).to.equal(LogLevel.INFO)
+      expect(infoLogger['_logLevel']).to.equal(LogLevel.INFO)
     })
   })
 
-  describe('__logLevelToInt', () => {
+  describe('_logLevelToInt', () => {
     it('should return 0 for error', () => {
-      expect(defaultLogger['__logLevelToInt'](LogLevel.ERROR)).to.equal(0)
+      expect(defaultLogger['_logLevelToInt'](LogLevel.ERROR)).to.equal(0)
     })
     it('should return 1 for warn', () => {
-      expect(defaultLogger['__logLevelToInt'](LogLevel.WARN)).to.equal(1)
+      expect(defaultLogger['_logLevelToInt'](LogLevel.WARN)).to.equal(1)
     })
     it('should return 2 for info', () => {
-      expect(defaultLogger['__logLevelToInt'](LogLevel.INFO)).to.equal(2)
+      expect(defaultLogger['_logLevelToInt'](LogLevel.INFO)).to.equal(2)
     })
     it('should return 3 for debug', () => {
-      expect(defaultLogger['__logLevelToInt'](LogLevel.DEBUG)).to.equal(3)
+      expect(defaultLogger['_logLevelToInt'](LogLevel.DEBUG)).to.equal(3)
     })
     it('should throw error if unknown level passed', () => {
       const notALogLevel = 'not a log level'
       try {
-        expect(defaultLogger['__logLevelToInt'](notALogLevel as any)).to.equal(1)
+        expect(defaultLogger['_logLevelToInt'](notALogLevel as any)).to.equal(1)
       } catch (err) {
         expect(err.message).to.equal(`Unknown log lever [${notALogLevel}]`)
       }
     })
   })
 
-  describe('__shouldLog', () => {
+  describe('_shouldLog', () => {
     const { ERROR, WARN, INFO, DEBUG } = LogLevel
     ;([
       [ERROR, ERROR, true],
@@ -63,42 +63,85 @@ describe('logger - ConsoleLogger', () => {
     ] as [LogLevel, LogLevel, boolean][]).forEach(([confLevel, msgLevel, shouldLog]) => {
       it(`should return ${shouldLog} if config level ${confLevel} for message level ${msgLevel}`, () => {
         const logger = new ConsoleLogger(confLevel)
-        expect(logger['__shouldLog'](msgLevel)).to.equal(shouldLog)
+        expect(logger['_shouldLog'](msgLevel)).to.equal(shouldLog)
       })
     })
   })
 
-  describe('__logMessage', () => {
+  describe('_consoleLog', () => {
+    const sandbox = createSandbox()
+    let stub_console_log: SinonStub
+    const loggerInstance = new ConsoleLogger()
+
+    beforeEach(() => {
+      stub_console_log = sandbox.stub(console, 'log')
+    })
+    afterEach(sandbox.restore)
+
+    it('should call console.log with string', () => {
+      const msg = 'test'
+      loggerInstance['_consoleLog'](msg)
+      assert.calledOnce(stub_console_log)
+      assert.calledWith(stub_console_log, msg)
+    })
+    it('should call console.log with object', () => {
+      const obj = { test: 'test' }
+      loggerInstance['_consoleLog'](obj)
+      assert.calledOnce(stub_console_log)
+      assert.calledWith(stub_console_log, obj)
+    })
+
+    it('should call console.log with two arguments', () => {
+      const msg = 'test'
+      const obj = { test: 'test' }
+      loggerInstance['_consoleLog'](msg, obj)
+      assert.calledOnce(stub_console_log)
+      assert.calledWith(stub_console_log, msg, obj)
+    })
+  })
+
+  describe('_logMessage', () => {
     const sandbox = createSandbox()
     let stub_console_log: SinonStub
     let stub_logger_shouldLog: SinonStub
     const logMessageLogger = new ConsoleLogger()
     beforeEach(() => {
-      stub_console_log = sandbox.stub(console, 'log')
-      stub_logger_shouldLog = sandbox.stub(logMessageLogger, '__shouldLog' as any)
+      stub_console_log = sandbox.stub(logMessageLogger as any, '_consoleLog')
+      stub_logger_shouldLog = sandbox.stub(logMessageLogger as any, '_shouldLog')
     })
     afterEach(sandbox.restore)
 
     it('should not log messages if shouldLog returns false', () => {
       stub_logger_shouldLog.returns(false)
-      logMessageLogger['__logMessage'](LogLevel.ERROR, 'test message')
+      logMessageLogger['_logMessage'](LogLevel.ERROR, 'test message')
       assert.calledOnce(stub_logger_shouldLog)
       assert.calledWith(stub_logger_shouldLog, LogLevel.ERROR)
       assert.notCalled(stub_console_log)
     })
 
-    it('should log only message if no object passed', () => {
+    it('should log only string message if no object passed', () => {
       stub_logger_shouldLog.returns(true)
-      logMessageLogger['__logMessage'](LogLevel.ERROR, 'test message')
+      logMessageLogger['_logMessage'](LogLevel.ERROR, 'test message')
       assert.calledOnce(stub_logger_shouldLog)
       assert.calledWith(stub_logger_shouldLog, LogLevel.ERROR)
       assert.calledOnce(stub_console_log)
       assert.calledWith(stub_console_log, 'ERROR: test message')
     })
+
+    it('should log only object message if no object passed', () => {
+      stub_logger_shouldLog.returns(true)
+      const objMsg = { test: 'test' }
+      logMessageLogger['_logMessage'](LogLevel.ERROR, objMsg)
+      assert.calledOnce(stub_logger_shouldLog)
+      assert.calledWith(stub_logger_shouldLog, LogLevel.ERROR)
+      assert.calledOnce(stub_console_log)
+      assert.calledWith(stub_console_log, 'ERROR:', objMsg)
+    })
+
     it('should call logger twice for message and object', () => {
       stub_logger_shouldLog.returns(true)
       const someObject = { test: 'object' }
-      logMessageLogger['__logMessage'](LogLevel.ERROR, 'test message', someObject)
+      logMessageLogger['_logMessage'](LogLevel.ERROR, 'test message', someObject)
       assert.calledOnce(stub_logger_shouldLog)
       assert.calledWith(stub_logger_shouldLog, LogLevel.ERROR)
       assert.calledTwice(stub_console_log)
@@ -114,7 +157,7 @@ describe('logger - ConsoleLogger', () => {
     const dummyMessage = 'dummy message'
     const dummyObject = { dummy: 'object' }
     beforeEach(() => {
-      stub_logger_logMessage = sandbox.stub(logger, '__logMessage' as any)
+      stub_logger_logMessage = sandbox.stub(logger, '_logMessage' as any)
     })
     afterEach(sandbox.restore)
 

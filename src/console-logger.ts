@@ -8,13 +8,9 @@ export enum LogLevel {
 }
 
 export class ConsoleLogger implements LoggerStrategy {
-  private readonly __logLevel: LogLevel
+  public constructor(protected _logLevel: LogLevel = LogLevel.ERROR) {}
 
-  public constructor(logLevel: LogLevel = LogLevel.ERROR) {
-    this.__logLevel = logLevel
-  }
-
-  private __logLevelToInt = (logLevel: LogLevel): number => {
+  protected _logLevelToInt = (logLevel: LogLevel): number => {
     switch (logLevel) {
       case LogLevel.ERROR:
         return 0
@@ -29,31 +25,34 @@ export class ConsoleLogger implements LoggerStrategy {
     }
   }
 
-  private __shouldLog = (currentLevel: LogLevel): boolean => {
-    return this.__logLevelToInt(this.__logLevel) >= this.__logLevelToInt(currentLevel)
+  protected _shouldLog = (currentLevel: LogLevel): boolean => {
+    return this._logLevelToInt(this._logLevel) >= this._logLevelToInt(currentLevel)
   }
 
-  private __logMessage = (type: LogLevel, msg: string, obj?: any): void => {
-    if (!this.__shouldLog(type)) return
-    // eslint-disable-next-line no-console
-    console.log(`${type.toUpperCase()}: ${msg}`)
-    // eslint-disable-next-line no-console
-    if (obj) console.log(obj)
+  protected _consoleLog(msg: any, obj?: any): void {
+    console.log(msg, obj) // eslint-disable-line no-console
   }
 
-  public debug(msg: string, obj?: any): void {
-    this.__logMessage(LogLevel.DEBUG, msg, obj)
+  protected _logMessage = (type: LogLevel, msg: any, obj?: any): void => {
+    if (!this._shouldLog(type)) return
+    if (typeof msg === 'string') this._consoleLog(`${type.toUpperCase()}: ${msg}`)
+    else this._consoleLog(`${type.toUpperCase()}:`, msg)
+    if (obj) this._consoleLog(obj)
   }
 
-  public info(msg: string, obj?: any): void {
-    this.__logMessage(LogLevel.INFO, msg, obj)
+  public debug(msg: any, obj?: any): void {
+    this._logMessage(LogLevel.DEBUG, msg, obj)
   }
 
-  public warn(msg: string, obj?: any): void {
-    this.__logMessage(LogLevel.WARN, msg, obj)
+  public info(msg: any, obj?: any): void {
+    this._logMessage(LogLevel.INFO, msg, obj)
   }
 
-  public error(msg: string, obj?: any): void {
-    this.__logMessage(LogLevel.ERROR, msg, obj)
+  public warn(msg: any, obj?: any): void {
+    this._logMessage(LogLevel.WARN, msg, obj)
+  }
+
+  public error(msg: any, obj?: any): void {
+    this._logMessage(LogLevel.ERROR, msg, obj)
   }
 }

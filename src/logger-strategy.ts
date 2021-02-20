@@ -1,6 +1,6 @@
 export interface LoggerStrategy {
-  debug(msg: string, obj?: any): void
-  info(msg: string, obj?: any): void
-  warn(msg: string, obj?: any): void
-  error(msg: string, obj?: any): void
+  debug(msg: any, obj?: any): void
+  info(msg: any, obj?: any): void
+  warn(msg: any, obj?: any): void
+  error(msg: any, obj?: any): void
 }

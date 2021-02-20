@@ -20,6 +20,8 @@
   "plugins": ["@typescript-eslint", "eslint-plugin-import", "import"],
   "root": true,
   "rules": {
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/explicit-function-return-type": "error",
     "@typescript-eslint/naming-convention": [
       "error",
@@ -36,7 +38,7 @@
         "selector": ["default"]
       },
       {
-        "format": ["PascalCase","camelCase"],
+        "format": ["PascalCase", "camelCase"],
         "selector": ["accessor"]
       },
       {
