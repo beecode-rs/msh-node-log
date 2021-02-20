@@ -6,14 +6,15 @@ export declare enum LogLevel {
     DEBUG = "debug"
 }
 export declare class ConsoleLogger implements LoggerStrategy {
-    private readonly __logLevel;
-    constructor(logLevel?: LogLevel);
-    private __logLevelToInt;
-    private __shouldLog;
-    private __logMessage;
-    debug(msg: string, obj?: any): void;
-    info(msg: string, obj?: any): void;
-    warn(msg: string, obj?: any): void;
-    error(msg: string, obj?: any): void;
+    protected _logLevel: LogLevel;
+    constructor(_logLevel?: LogLevel);
+    protected _logLevelToInt: (logLevel: LogLevel) => number;
+    protected _shouldLog: (currentLevel: LogLevel) => boolean;
+    protected _consoleLog(msg: any, obj?: any): void;
+    protected _logMessage: (type: LogLevel, msg: any, obj?: any) => void;
+    debug(msg: any, obj?: any): void;
+    info(msg: any, obj?: any): void;
+    warn(msg: any, obj?: any): void;
+    error(msg: any, obj?: any): void;
 }
 //# sourceMappingURL=console-logger.d.ts.map
