@@ -1,3 +1,10 @@
+## [1.1.3](https://github.com/beecode-rs/msh-node-log/compare/v1.1.2...v1.1.3) (2021-02-21)
+
+
+### Bug Fixes
+
+* do not print object if it is undefined ([a313ef9](https://github.com/beecode-rs/msh-node-log/commit/a313ef98dfdbfc530f9cdbe4cf26a296358269ce))
+
 ## [1.1.2](https://github.com/beecode-rs/msh-node-log/compare/v1.1.1...v1.1.2) (2021-02-21)
 
 
