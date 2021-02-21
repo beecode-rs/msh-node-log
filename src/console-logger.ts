@@ -1,31 +1,43 @@
 import { LoggerStrategy } from './logger-strategy'
 
-export enum LogLevel {
+export enum LogLevelType {
   ERROR = 'error',
   WARN = 'warn',
   INFO = 'info',
   DEBUG = 'debug',
 }
 
-export class ConsoleLogger implements LoggerStrategy {
-  public constructor(protected _logLevel: LogLevel = LogLevel.ERROR) {}
+export type LogLevel = 'error' | 'warn' | 'info' | 'debug' | 'ERROR' | 'WARN' | 'INFO' | 'DEBUG'
 
-  protected _logLevelToInt = (logLevel: LogLevel): number => {
+export class ConsoleLogger implements LoggerStrategy {
+  protected _logLevel: LogLevelType
+
+  public constructor(logLevel?: LogLevelType | LogLevel) {
+    if (typeof logLevel === 'string') {
+      this._logLevel = LogLevelType[logLevel.toUpperCase()]
+    } else {
+      this._logLevel = logLevel ?? LogLevelType.ERROR
+    }
+
+    if (!this._logLevel) throw new Error(`Unknown log level [${logLevel}]. Allowed values ['error' | 'warn' | 'info' | 'debug']`)
+  }
+
+  protected _logLevelToInt = (logLevel: LogLevelType): number => {
     switch (logLevel) {
-      case LogLevel.ERROR:
+      case LogLevelType.ERROR:
         return 0
-      case LogLevel.WARN:
+      case LogLevelType.WARN:
         return 1
-      case LogLevel.INFO:
+      case LogLevelType.INFO:
         return 2
-      case LogLevel.DEBUG:
+      case LogLevelType.DEBUG:
         return 3
       default:
         throw new Error(`Unknown log lever [${logLevel}]`)
     }
   }
 
-  protected _shouldLog = (currentLevel: LogLevel): boolean => {
+  protected _shouldLog = (currentLevel: LogLevelType): boolean => {
     return this._logLevelToInt(this._logLevel) >= this._logLevelToInt(currentLevel)
   }
 
@@ -33,26 +45,29 @@ export class ConsoleLogger implements LoggerStrategy {
     console.log(msg, obj) // eslint-disable-line no-console
   }
 
-  protected _logMessage = (type: LogLevel, msg: any, obj?: any): void => {
+  protected _logMessage = (type: LogLevelType, msg: any, obj?: any): void => {
     if (!this._shouldLog(type)) return
-    if (typeof msg === 'string') this._consoleLog(`${type.toUpperCase()}: ${msg}`)
-    else this._consoleLog(`${type.toUpperCase()}:`, msg)
+    if (typeof msg === 'string') {
+      this._consoleLog(`${type.toUpperCase()}: ${msg}`)
+    } else {
+      this._consoleLog(`${type.toUpperCase()}:`, msg)
+    }
     if (obj) this._consoleLog(obj)
   }
 
   public debug(msg: any, obj?: any): void {
-    this._logMessage(LogLevel.DEBUG, msg, obj)
+    this._logMessage(LogLevelType.DEBUG, msg, obj)
   }
 
   public info(msg: any, obj?: any): void {
-    this._logMessage(LogLevel.INFO, msg, obj)
+    this._logMessage(LogLevelType.INFO, msg, obj)
   }
 
   public warn(msg: any, obj?: any): void {
-    this._logMessage(LogLevel.WARN, msg, obj)
+    this._logMessage(LogLevelType.WARN, msg, obj)
   }
 
   public error(msg: any, obj?: any): void {
-    this._logMessage(LogLevel.ERROR, msg, obj)
+    this._logMessage(LogLevelType.ERROR, msg, obj)
   }
 }
