@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/beecode-rs/msh-node-log/compare/v1.1.1...v1.1.2) (2021-02-21)
+
+
+### Bug Fixes
+
+* force build ([e558d44](https://github.com/beecode-rs/msh-node-log/commit/e558d442f59f692c52b0a770e06516c08c91cc14))
+
 ## [1.1.1](https://github.com/beecode-rs/msh-node-log/compare/v1.1.0...v1.1.1) (2021-02-21)
 
 
