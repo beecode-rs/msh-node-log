@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/beecode-rs/msh-node-log/compare/v1.1.0...v1.1.1) (2021-02-21)
+
+
+### Bug Fixes
+
+* allow string type for log level param ([db10cdb](https://github.com/beecode-rs/msh-node-log/commit/db10cdbc83a73929e5165675cf32c338ef494719))
+
 # [1.1.0](https://github.com/beecode-rs/msh-node-log/compare/v1.0.4...v1.1.0) (2021-02-20)
 
 
