@@ -1,11 +1,11 @@
-import { ConsoleLogger, LogLevelType } from '.'
+import { ConsoleLogger, LogLevel, LogLevelType } from '.'
 import { expect } from 'chai'
 import { SinonStub, assert, createSandbox } from 'sinon'
 
 describe('logger - ConsoleLogger', () => {
   const defaultLogger = new ConsoleLogger()
 
-  describe.only('constructor', () => {
+  describe('constructor', () => {
     it('should set default log level', () => {
       expect(defaultLogger['_logLevel']).to.equal(LogLevelType.ERROR)
     })
@@ -13,9 +13,20 @@ describe('logger - ConsoleLogger', () => {
       const infoLogger = new ConsoleLogger(LogLevelType.INFO)
       expect(infoLogger['_logLevel']).to.equal(LogLevelType.INFO)
     })
-    it('should allow string values', () => {
-      const infoLogger = new ConsoleLogger('info')
-      expect(infoLogger['_logLevel']).to.equal(LogLevelType.INFO)
+    ;([
+      ['error', LogLevelType.ERROR],
+      ['warn', LogLevelType.WARN],
+      ['info', LogLevelType.INFO],
+      ['debug', LogLevelType.DEBUG],
+      ['ERROR', LogLevelType.ERROR],
+      ['WARN', LogLevelType.WARN],
+      ['INFO', LogLevelType.INFO],
+      ['DEBUG', LogLevelType.DEBUG],
+    ] as [LogLevel, LogLevelType][]).forEach(([testLogLevel, expectedLogLevel]) => {
+      it(`should allow string values [${testLogLevel}]`, () => {
+        const infoLogger = new ConsoleLogger(testLogLevel)
+        expect(infoLogger['_logLevel']).to.equal(expectedLogLevel)
+      })
     })
     it('should throw error if unknown log level passed', () => {
       try {
