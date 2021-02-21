@@ -107,6 +107,7 @@ describe('logger - ConsoleLogger', () => {
       assert.calledOnce(stub_console_log)
       assert.calledWith(stub_console_log, msg)
     })
+
     it('should call console.log with object', () => {
       const obj = { test: 'test' }
       loggerInstance['_consoleLog'](obj)

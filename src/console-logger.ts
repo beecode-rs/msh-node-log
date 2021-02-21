@@ -42,7 +42,10 @@ export class ConsoleLogger implements LoggerStrategy {
   }
 
   protected _consoleLog(msg: any, obj?: any): void {
-    console.log(msg, obj) // eslint-disable-line no-console
+    /* eslint-disable no-console*/
+    if (obj) console.log(msg, obj)
+    else console.log(msg)
+    /* eslint-enable no-console*/
   }
 
   protected _logMessage = (type: LogLevelType, msg: any, obj?: any): void => {
