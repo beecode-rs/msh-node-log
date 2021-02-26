@@ -1,3 +1,10 @@
+## [1.1.4](https://github.com/beecode-rs/msh-node-log/compare/v1.1.3...v1.1.4) (2021-02-26)
+
+
+### Bug Fixes
+
+* npm-force-resolutions version problem ([5a98189](https://github.com/beecode-rs/msh-node-log/commit/5a98189017d97625db6bf530e1f83c9182e405d3))
+
 ## [1.1.3](https://github.com/beecode-rs/msh-node-log/compare/v1.1.2...v1.1.3) (2021-02-21)
 
 
