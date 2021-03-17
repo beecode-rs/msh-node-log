@@ -42,7 +42,6 @@
     "husky": "5.1.1",
     "markdown-toc": "1.2.0",
     "mocha": "8.3.0",
-    "npm-force-resolutions": "0.0.6",
     "nyc": "15.1.0",
     "pinst": "2.1.6",
     "prettier": "2.2.1",
@@ -69,13 +68,7 @@
     "type": "git",
     "url": "https://github.com/beecode-rs/msh-node-log.git"
   },
-  "resolutions": {
-    "ini": "^1.3.6",
-    "lodash": "^4.17.19",
-    "minimist": "^1.2.3"
-  },
   "scripts": {
-    "audit": "npm audit --json | npx npm-audit-helper",
     "build": "npm run clean && tsc -p ./tsconfig-build.json",
     "build:watch": "npm run clean && tsc-watch -p tsconfig-build.json --preserveWatchOutput",
     "bump-version": "rjp package.json version",
@@ -90,7 +83,6 @@
     "lint:fix": "npm run eslint:fix && npm run prettier:fix",
     "postinstall": "husky install",
     "postpublish": "pinst --enable",
-    "preinstall": "npx npm-force-resolutions@0.0.6",
     "prepublishOnly": "pinst --disable",
     "prettier": "prettier --check \"./src/**/*.{ts,json}\"",
     "prettier:fix": "prettier --write \"./src/**/*.{ts,json}\"",
