@@ -1,3 +1,16 @@
+## [1.1.6](https://github.com/beecode-rs/msh-node-log/compare/v1.1.5...v1.1.6) (2021-04-16)
+
+
+### Bug Fixes
+
+* build script ([8f26be8](https://github.com/beecode-rs/msh-node-log/commit/8f26be8be0abeb23f0384bb70c448d3b02735d8e))
+* bump version ([2abf134](https://github.com/beecode-rs/msh-node-log/commit/2abf13458e2bcc00989187716ff4bf20fa74ea71))
+* package lock ([4291284](https://github.com/beecode-rs/msh-node-log/commit/42912843339a0e59881c8dc96e83faf83fec3c8f))
+* script ([79c3c72](https://github.com/beecode-rs/msh-node-log/commit/79c3c7276317f6eecfa9a273067c69d6a7e92186))
+* script ([b4747c6](https://github.com/beecode-rs/msh-node-log/commit/b4747c65dda738e80bdf600f6bbe482d5f8b330e))
+* update package.json ([655328d](https://github.com/beecode-rs/msh-node-log/commit/655328db0a4df202287b9884d3db410bb3dec2b3))
+* update release script ([1d73f14](https://github.com/beecode-rs/msh-node-log/commit/1d73f140a2dea25709b998cff11a2f0ca7960f68))
+
 ## [1.1.5](https://github.com/beecode-rs/msh-node-log/compare/v1.1.4...v1.1.5) (2021-03-17)
 
 
