@@ -5,5 +5,5 @@ export interface MockLoggerStrategy {
     info: SinonStub<any[], void>;
     warn: SinonStub<any[], void>;
 }
-export declare const mockLoggerStrategy: (sandbox: SinonSandbox) => any;
+export declare const mockLoggerStrategyFactory: (sandbox: SinonSandbox) => any;
 //# sourceMappingURL=logger-strategy.test.d.ts.map

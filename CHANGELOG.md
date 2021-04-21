@@ -1,3 +1,17 @@
+# [2.0.0](https://github.com/beecode-rs/msh-node-log/compare/v1.1.6...v2.0.0) (2021-04-21)
+
+
+### Features
+
+* added console log strategy ([6e4f8bc](https://github.com/beecode-rs/msh-node-log/commit/6e4f8bc397cd32f305ec8daef940636e4aec5749))
+
+
+### BREAKING CHANGES
+
+* remove index to strategy implementations
+add console log strategy (simple, newRelicJson)
+update package json and audit fix
+
 ## [1.1.6](https://github.com/beecode-rs/msh-node-log/compare/v1.1.5...v1.1.6) (2021-04-16)
 
 
