@@ -1,6 +1,9 @@
+export type ObjectType = { [key: string]: any }
+export type StringOrObjectType = string | ObjectType
+
 export interface LoggerStrategy {
-  debug(msg: any, obj?: any): void
-  info(msg: any, obj?: any): void
-  warn(msg: any, obj?: any): void
-  error(msg: any, obj?: any): void
+  debug(messageObject: StringOrObjectType, meta?: ObjectType): void
+  info(messageObject: StringOrObjectType, meta?: ObjectType): void
+  warn(messageObject: StringOrObjectType, meta?: ObjectType): void
+  error(messageObject: StringOrObjectType, meta?: ObjectType): void
 }

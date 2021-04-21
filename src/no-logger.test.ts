@@ -1,4 +1,4 @@
-import { NoLogger } from '.'
+import { NoLogger } from './no-logger'
 import { SinonStub, assert, createSandbox } from 'sinon'
 
 describe('logger - NoLogger', () => {

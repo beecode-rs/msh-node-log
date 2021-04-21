@@ -8,7 +8,7 @@ export interface MockLoggerStrategy {
   warn: SinonStub<any[], void>
 }
 
-export const mockLoggerStrategy = (sandbox: SinonSandbox): any => {
+export const mockLoggerStrategyFactory = (sandbox: SinonSandbox): any => {
   const stub_constructor = sandbox.stub()
   return class implements LoggerStrategy, MockLoggerStrategy {
     public static STUB_CONSTRUCTOR = stub_constructor

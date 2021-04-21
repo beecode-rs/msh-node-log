@@ -26,7 +26,6 @@
     "@semantic-release/github": "7.2.1",
     "@semantic-release/release-notes-generator": "9.0.2",
     "@types/chai": "4.2.16",
-    "@types/dotenv": "8.2.0",
     "@types/mocha": "8.2.2",
     "@types/node": "14.14.41",
     "@types/proxyquire": "1.3.28",
@@ -45,12 +44,12 @@
     "nyc": "15.1.0",
     "pinst": "2.1.6",
     "prettier": "2.2.1",
-    "proxyquire": "2.1.3",
     "replace-json-property": "1.6.3",
     "rimraf": "3.0.2",
     "semantic-release": "17.4.2",
     "sinon": "10.0.0",
     "source-map-support": "0.5.19",
+    "ts-cleaner": "1.0.5",
     "ts-node": "9.1.1",
     "tsc-watch-2": "0.0.2",
     "typescript": "4.2.4"
@@ -68,9 +67,13 @@
     "type": "git",
     "url": "https://github.com/beecode-rs/msh-node-log.git"
   },
+  "resolutions": {
+    "lodash": "^4.17.21"
+  },
   "scripts": {
-    "build": "npm run clean && tsc -p ./tsconfig-build.json",
-    "build:watch": "npm run clean && tsc-watch -p tsconfig-build.json --preserveWatchOutput",
+    "audit:fix": "npx --yes npm-force-resolutions",
+    "build": "npm run clean && npm run tsc",
+    "build:watch": "npm run tsc:watch -- --preserveWatchOutput --onSuccess \"npm run tsc:cleaner\"",
     "bump-version": "rjp package.json version",
     "clean": "rimraf ./lib/*",
     "commit": "git-cz",
@@ -90,7 +93,12 @@
     "semantic-release:check": "npm run semantic-release -- --dry-run --no-ci",
     "test": "npm run test:unit -- --forbid-only && npm run test:int -- --forbid-only",
     "test:int": "#mocha ./src/test/{**/,/}*.ts",
-    "test:unit": "mocha ./src/{**/,/}*.test.ts"
+    "test:unit": "mocha ./src/{**/,/}*.test.ts",
+    "tsc": "tsc -p ./tsconfig-build.json",
+    "tsc:check": "npm run tsc -- --noEmit",
+    "tsc:cleaner": "ts-cleaner --dist build",
+    "tsc:cleaner:watch": "npm run tsc:cleaner -- --watch",
+    "tsc:watch": "tsc-watch -p tsconfig-build.json"
   },
   "typings": "./lib/index.d.ts",
   "version": "1.1.6"
