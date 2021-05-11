@@ -1,5 +1,6 @@
 import { LogLevelType } from '../log-level-type'
 import { ObjectType, StringOrObjectType } from '../logger-strategy'
+import { util } from '../util'
 import { ConsoleLogStrategy } from './console-log-strategy'
 
 export class SimpleConsoleLog implements ConsoleLogStrategy {
@@ -15,10 +16,11 @@ export class SimpleConsoleLog implements ConsoleLogStrategy {
     datetime?: Date
   }): void {
     /* eslint-disable no-console*/
-    if (typeof messageObject === 'object') console.log(`${datetime.toISOString()} - ${type.toUpperCase()}:`, messageObject)
-    else console.log(`${datetime.toISOString()} - ${type.toUpperCase()}: ${messageObject}`)
+    const fnName = util.logTypeToFunction(type)
+    if (typeof messageObject === 'object') console[fnName](`${datetime.toISOString()} - ${type.toUpperCase()}:`, messageObject)
+    else console[fnName](`${datetime.toISOString()} - ${type.toUpperCase()}: ${messageObject}`)
 
-    if (meta) console.log(meta)
+    if (meta) console[fnName](meta)
     /* eslint-enable no-console*/
   }
 }
