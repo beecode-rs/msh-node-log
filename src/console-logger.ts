@@ -20,7 +20,7 @@ export class ConsoleLogger implements LoggerStrategy {
     this._consoleLogStrategy = consoleLogStrategy
   }
 
-  protected _logLevelToInt = (logLevel: LogLevelType): number => {
+  protected _logLevelToInt(logLevel: LogLevelType): number {
     switch (logLevel) {
       case LogLevelType.ERROR:
         return 0
@@ -35,11 +35,11 @@ export class ConsoleLogger implements LoggerStrategy {
     }
   }
 
-  protected _shouldLog = (currentLevel: LogLevelType): boolean => {
+  protected _shouldLog(currentLevel: LogLevelType): boolean {
     return this._logLevelToInt(this._logLevel) >= this._logLevelToInt(currentLevel)
   }
 
-  protected _logMessage = (type: LogLevelType, messageObject: StringOrObjectType, meta?: ObjectType): void => {
+  protected _logMessage(type: LogLevelType, messageObject: StringOrObjectType, meta?: ObjectType): void {
     if (!this._shouldLog(type)) return
     this._consoleLogStrategy.log({ type, messageObject, meta })
   }
