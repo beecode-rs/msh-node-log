@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/beecode-rs/msh-node-log/compare/v2.0.0...v2.0.1) (2021-05-11)
+
+
+### Bug Fixes
+
+* do not use arrow functions ([92d9e82](https://github.com/beecode-rs/msh-node-log/commit/92d9e820c24f50b698dfc506308773a19a0e7c6a))
+
 # [2.0.0](https://github.com/beecode-rs/msh-node-log/compare/v1.1.6...v2.0.0) (2021-04-21)
 
 
