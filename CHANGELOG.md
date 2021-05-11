@@ -1,3 +1,10 @@
+## [2.0.2](https://github.com/beecode-rs/msh-node-log/compare/v2.0.1...v2.0.2) (2021-05-11)
+
+
+### Bug Fixes
+
+* use console info/warn/error/log ([fffc909](https://github.com/beecode-rs/msh-node-log/commit/fffc90917b14d357d82892f69f8340ac23ebd16d))
+
 ## [2.0.1](https://github.com/beecode-rs/msh-node-log/compare/v2.0.0...v2.0.1) (2021-05-11)
 
 
