@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/beecode-rs/msh-node-log/compare/v2.0.2...v2.1.0) (2021-11-14)
+
+
+### Features
+
+* meta can be string or object ([329f6b0](https://github.com/beecode-rs/msh-node-log/commit/329f6b06746717faadff07ef362c7a50b5cf04a5))
+
 ## [2.0.2](https://github.com/beecode-rs/msh-node-log/compare/v2.0.1...v2.0.2) (2021-05-11)
 
 
