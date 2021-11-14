@@ -1,10 +1,10 @@
 import { mockConsoleLogStrategyFactory } from './console-log-strategy/console-log-strategy.test'
 import { ConsoleLogger } from './console-logger'
-import { LogLevelStringType, LogLevelType } from './log-level-type'
+import { LogLevelType } from './log-level-type'
 import { expect } from 'chai'
 import { SinonStub, assert, createSandbox } from 'sinon'
 
-describe('logger - ConsoleLogger', () => {
+describe('ConsoleLogger', () => {
   const defaultLogger = new ConsoleLogger()
 
   describe('constructor', () => {
@@ -15,85 +15,57 @@ describe('logger - ConsoleLogger', () => {
       const infoLogger = new ConsoleLogger({ logLevel: LogLevelType.INFO })
       expect(infoLogger['_logLevel']).to.equal(LogLevelType.INFO)
     })
-    ;([
-      ['error', LogLevelType.ERROR],
-      ['warn', LogLevelType.WARN],
-      ['info', LogLevelType.INFO],
-      ['debug', LogLevelType.DEBUG],
-      ['ERROR', LogLevelType.ERROR],
-      ['WARN', LogLevelType.WARN],
-      ['INFO', LogLevelType.INFO],
-      ['DEBUG', LogLevelType.DEBUG],
-    ] as [LogLevelStringType, LogLevelType][]).forEach(([testLogLevel, expectedLogLevel]) => {
-      it(`should allow string values [${testLogLevel}]`, () => {
-        const infoLogger = new ConsoleLogger({ logLevel: testLogLevel })
-        expect(infoLogger['_logLevel']).to.equal(expectedLogLevel)
-      })
-    })
-    it('should throw error if unknown log level passed', () => {
-      try {
-        new ConsoleLogger({ logLevel: 'foo' as any })
-        expect.fail()
-      } catch (e) {
-        expect(e.message).to.eq("Unknown log level [foo]. Allowed values ['error' | 'warn' | 'info' | 'debug']")
-      }
-    })
-    it('should throw error if object passed as log level', () => {
-      try {
-        new ConsoleLogger({ logLevel: { test: 'foo' } as any })
-        expect.fail()
-      } catch (e) {
-        expect(e.message).to.eq("Only string value allowed for log level. Allowed values ['error' | 'warn' | 'info' | 'debug']")
-      }
-    })
   })
 
-  describe('_logLevelToInt', () => {
+  describe('LogLevelToInt', () => {
     it('should return 0 for error', () => {
-      expect(defaultLogger['_logLevelToInt'](LogLevelType.ERROR)).to.equal(0)
+      expect(ConsoleLogger.LogLevelToInt(LogLevelType.ERROR)).to.equal(0)
     })
     it('should return 1 for warn', () => {
-      expect(defaultLogger['_logLevelToInt'](LogLevelType.WARN)).to.equal(1)
+      expect(ConsoleLogger.LogLevelToInt(LogLevelType.WARN)).to.equal(1)
     })
     it('should return 2 for info', () => {
-      expect(defaultLogger['_logLevelToInt'](LogLevelType.INFO)).to.equal(2)
+      expect(ConsoleLogger.LogLevelToInt(LogLevelType.INFO)).to.equal(2)
     })
     it('should return 3 for debug', () => {
-      expect(defaultLogger['_logLevelToInt'](LogLevelType.DEBUG)).to.equal(3)
+      expect(ConsoleLogger.LogLevelToInt(LogLevelType.DEBUG)).to.equal(3)
     })
     it('should throw error if unknown level passed', () => {
       const notALogLevel = 'not a log level'
       try {
-        expect(defaultLogger['_logLevelToInt'](notALogLevel as any)).to.equal(1)
+        expect(ConsoleLogger.LogLevelToInt(notALogLevel as any)).to.equal(1)
       } catch (err) {
-        expect(err.message).to.equal(`Unknown log lever [${notALogLevel}]`)
+        if (!(err instanceof Error)) throw err
+        expect(err.message).to.equal(`ExhaustiveCheck: Unknown log lever [${notALogLevel}]`)
       }
     })
   })
 
   describe('_shouldLog', () => {
     const { ERROR, WARN, INFO, DEBUG } = LogLevelType
-    ;([
-      [ERROR, ERROR, true],
-      [ERROR, WARN, false],
-      [ERROR, INFO, false],
-      [ERROR, DEBUG, false],
+    ;(
+      [
+        [ERROR, ERROR, true],
+        [ERROR, WARN, false],
+        [ERROR, INFO, false],
+        [ERROR, DEBUG, false],
 
-      [WARN, ERROR, true],
-      [WARN, WARN, true],
-      [WARN, INFO, false],
-      [WARN, DEBUG, false],
+        [WARN, ERROR, true],
+        [WARN, WARN, true],
+        [WARN, INFO, false],
+        [WARN, DEBUG, false],
 
-      [INFO, ERROR, true],
-      [INFO, WARN, true],
-      [INFO, INFO, true],
-      [INFO, DEBUG, false],
+        [INFO, ERROR, true],
+        [INFO, WARN, true],
+        [INFO, INFO, true],
+        [INFO, DEBUG, false],
 
-      [DEBUG, ERROR, true],
-      [DEBUG, WARN, true],
-      [DEBUG, INFO, true],
-      [DEBUG, DEBUG, true],
-    ] as [LogLevelType, LogLevelType, boolean][]).forEach(([confLevel, msgLevel, shouldLog]) => {
+        [DEBUG, ERROR, true],
+        [DEBUG, WARN, true],
+        [DEBUG, INFO, true],
+        [DEBUG, DEBUG, true],
+      ] as [LogLevelType, LogLevelType, boolean][]
+    ).forEach(([confLevel, msgLevel, shouldLog]) => {
       it(`should return ${shouldLog} if config level ${confLevel} for message level ${msgLevel}`, () => {
         const logger = new ConsoleLogger({ logLevel: confLevel })
         expect(logger['_shouldLog'](msgLevel)).to.equal(shouldLog)

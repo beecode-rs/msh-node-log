@@ -1,0 +1,65 @@
+@startuml
+    folder "src" as src_b874d07 {
+      class "ConsoleLogger" as console_logger_d9ae554f {
+        + LogLevelToInt(logLevel: LogLevelType): number
+        # _consoleLogStrategy: ConsoleLogStrategy
+        # _logLevel: LogLevelType
+        # _logMessage(type: LogLevelType,\n messageObject: StringOrObjectType,\n meta?: StringOrObjectType): void
+        # _shouldLog(currentLevel: LogLevelType): boolean
+        constructor(params: {\n logLevel?: LogLevelType;\n consoleLogStrategy?: ConsoleLogStrategy \n} = {\n\n})
+        + debug(messageObject: StringOrObjectType,\n meta?: StringOrObjectType): void
+        + error(messageObject: StringOrObjectType,\n meta?: StringOrObjectType): void
+        + info(messageObject: StringOrObjectType,\n meta?: StringOrObjectType): void
+        + warn(messageObject: StringOrObjectType,\n meta?: StringOrObjectType): void
+      }
+      enum "LogLevelType" as log_level_type_94add8b {
+        DEBUG = 'debug'
+        ERROR = 'error'
+        INFO = 'info'
+        WARN = 'warn'
+      }
+      card string_or_object_type_765b9703 [
+        StringOrObjectType
+        ---
+        string | { [key: string]: any }
+      ]
+      interface "LoggerStrategy" as logger_strategy_765b9703 {
+        + debug(messageObject: StringOrObjectType,\n meta?: StringOrObjectType): void
+        + info(messageObject: StringOrObjectType,\n meta?: StringOrObjectType): void
+        + warn(messageObject: StringOrObjectType,\n meta?: StringOrObjectType): void
+        + error(messageObject: StringOrObjectType,\n meta?: StringOrObjectType): void
+      }
+      class "NoLogger" as no_logger_efb5639 {
+        + debug(_: StringOrObjectType,\n __?: StringOrObjectType): void
+        + error(_: StringOrObjectType,\n __?: StringOrObjectType): void
+        + info(_: StringOrObjectType,\n __?: StringOrObjectType): void
+        + warn(_: StringOrObjectType,\n __?: StringOrObjectType): void
+      }
+      folder "console-log-strategy" as console_log_strategy_5838fe20 {
+        interface "ConsoleLogStrategy" as console_log_strategy_7d0f5d8e {
+          + log(params: {\n type: LogLevelType;\n messageObject: StringOrObjectType;\n meta?: StringOrObjectType;\n datetime?: Date \n}): void
+        }
+        class "NewRelicJsonConsoleLog" as new_relic_json_console_log_cea23840 {
+          + log(params: {\n    type: LogLevelType\n    messageObject: StringOrObjectType\n    meta?: StringOrObjectType\n    datetime?: Date\n  }): void
+        }
+        class "SimpleConsoleLog" as simple_console_log_8617eebb {
+          + LogTypeToFunction(type: LogLevelType): 'log' | 'info' | 'warn' | 'error'
+          + log(params: {\n    type: LogLevelType\n    messageObject: StringOrObjectType\n    meta?: StringOrObjectType\n    datetime?: Date\n  }): void
+        }
+      }
+    }
+  new_relic_json_console_log_cea23840 -up-> log_level_type_94add8b
+  new_relic_json_console_log_cea23840 -up-> string_or_object_type_765b9703
+  new_relic_json_console_log_cea23840 .up.|> console_log_strategy_7d0f5d8e
+  simple_console_log_8617eebb -up-> log_level_type_94add8b
+  simple_console_log_8617eebb -up-> string_or_object_type_765b9703
+  simple_console_log_8617eebb -up-> simple_console_log_8617eebb
+  simple_console_log_8617eebb .up.|> console_log_strategy_7d0f5d8e
+  console_logger_d9ae554f -up-> console_log_strategy_7d0f5d8e
+  console_logger_d9ae554f -up-> log_level_type_94add8b
+  console_logger_d9ae554f -up-> string_or_object_type_765b9703
+  console_logger_d9ae554f -up-> console_logger_d9ae554f
+  console_logger_d9ae554f .up.|> logger_strategy_765b9703
+  no_logger_efb5639 -up-> string_or_object_type_765b9703
+  no_logger_efb5639 .up.|> logger_strategy_765b9703
+@enduml

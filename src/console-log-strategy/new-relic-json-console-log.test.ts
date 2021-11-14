@@ -2,7 +2,7 @@ import { LogLevelType } from '../log-level-type'
 import { NewRelicJsonConsoleLog } from './new-relic-json-console-log'
 import { SinonStub, assert, createSandbox } from 'sinon'
 
-describe('logger - NewRelicConsoleLog', () => {
+describe('NewRelicConsoleLog', () => {
   const sandbox = createSandbox()
   let stub_console_log: SinonStub
   const newRelicJsonConsoleLog = new NewRelicJsonConsoleLog()
@@ -29,12 +29,26 @@ describe('logger - NewRelicConsoleLog', () => {
       assert.calledWith(stub_console_log, JSON.stringify({ ...obj, logtype: 'info', timestamp: mockTimeStamp }))
     })
 
-    it('should call console.log with two arguments', () => {
+    it('should call console.log with two arguments (meta:object)', () => {
       const msg = 'test'
-      const obj = { test: 'test' }
-      newRelicJsonConsoleLog.log({ type: LogLevelType.DEBUG, messageObject: msg, meta: obj, datetime: mockDateTime })
+      const metaObj = { test: 'test' }
+      newRelicJsonConsoleLog.log({ type: LogLevelType.DEBUG, messageObject: msg, meta: metaObj, datetime: mockDateTime })
       assert.calledOnce(stub_console_log)
-      assert.calledWith(stub_console_log, JSON.stringify({ ...obj, logtype: 'debug', timestamp: mockTimeStamp, message: msg }))
+      assert.calledWith(
+        stub_console_log,
+        JSON.stringify({ ...metaObj, logtype: 'debug', timestamp: mockTimeStamp, message: msg })
+      )
+    })
+
+    it('should call console.log with two arguments (meta:string)', () => {
+      const msg = 'test'
+      const metaString = 'meta test'
+      newRelicJsonConsoleLog.log({ type: LogLevelType.DEBUG, messageObject: msg, meta: metaString, datetime: mockDateTime })
+      assert.calledOnce(stub_console_log)
+      assert.calledWith(
+        stub_console_log,
+        JSON.stringify({ meta: metaString, logtype: 'debug', timestamp: mockTimeStamp, message: msg })
+      )
     })
   })
 })

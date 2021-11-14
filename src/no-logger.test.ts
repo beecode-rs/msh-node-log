@@ -1,7 +1,7 @@
 import { NoLogger } from './no-logger'
 import { SinonStub, assert, createSandbox } from 'sinon'
 
-describe('logger - NoLogger', () => {
+describe('NoLogger', () => {
   describe('should not call logger', () => {
     const sandbox = createSandbox()
     const logger = new NoLogger()

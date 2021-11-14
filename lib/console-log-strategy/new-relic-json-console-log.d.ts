@@ -1,11 +1,11 @@
 import { LogLevelType } from '../log-level-type';
-import { ObjectType, StringOrObjectType } from '../logger-strategy';
+import { StringOrObjectType } from '../logger-strategy';
 import { ConsoleLogStrategy } from './console-log-strategy';
 export declare class NewRelicJsonConsoleLog implements ConsoleLogStrategy {
-    log({ type, messageObject, meta, datetime, }: {
+    log(params: {
         type: LogLevelType;
         messageObject: StringOrObjectType;
-        meta?: ObjectType;
+        meta?: StringOrObjectType;
         datetime?: Date;
     }): void;
 }
