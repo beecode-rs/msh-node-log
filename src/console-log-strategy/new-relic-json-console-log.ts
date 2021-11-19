@@ -1,28 +1,29 @@
 import { LogLevelType } from '../log-level-type'
-import { StringOrObjectType } from '../logger-strategy'
+import { ObjectType, StringOrObjectType } from '../logger-strategy'
 import { ConsoleLogStrategy } from './console-log-strategy'
 
 export class NewRelicJsonConsoleLog implements ConsoleLogStrategy {
-  public log(params: {
-    type: LogLevelType
-    messageObject: StringOrObjectType
-    meta?: StringOrObjectType
-    datetime?: Date
-  }): void {
-    const { type, messageObject, meta, datetime = new Date() } = params
+  public log(
+    params: { type: LogLevelType; meta?: ObjectType; datetime?: Date; prefix?: string },
+    ...msgs: StringOrObjectType[]
+  ): void {
+    const { type, meta, prefix, datetime = new Date() } = params
 
-    const metaObject = typeof meta === 'string' ? { meta } : meta
+    msgs.forEach((msg) => {
+      const payload = {
+        ...meta,
+        logtype: type.toString(),
+        timestamp: datetime.getTime(),
+        ...(typeof msg === 'object'
+          ? { ...msg, ...((prefix || msg.message) && { message: this._joinDefined(prefix, msg.message) }) }
+          : { message: this._joinDefined(prefix, msg) }),
+      }
 
-    let payload = {
-      logtype: type.toString(),
-      timestamp: datetime.getTime(),
-    } as any
+      console.log(JSON.stringify(payload)) // eslint-disable-line no-console
+    })
+  }
 
-    if (typeof messageObject === 'object') payload = { ...messageObject, ...payload }
-    else payload.message = messageObject
-
-    if (meta) payload = { ...metaObject, ...payload }
-
-    console.log(JSON.stringify(payload)) // eslint-disable-line no-console
+  protected _joinDefined(prefix?: string, msg?: string): string {
+    return [prefix, msg].filter(Boolean).join(' ')
   }
 }

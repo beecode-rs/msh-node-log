@@ -20,5 +20,6 @@ export const mockLoggerStrategyFactory = (sandbox: SinonSandbox): any => {
     public error = sandbox.stub()
     public info = sandbox.stub()
     public warn = sandbox.stub()
+    public clone = sandbox.stub()
   }
 }

@@ -1,23 +1,24 @@
 import { LogLevelType } from '../log-level-type'
-import { StringOrObjectType } from '../logger-strategy'
+import { ObjectType, StringOrObjectType } from '../logger-strategy'
 import { typeUtil } from '../util/type-util'
 import { ConsoleLogStrategy } from './console-log-strategy'
 
 export class SimpleConsoleLog implements ConsoleLogStrategy {
-  public log(params: {
-    type: LogLevelType
-    messageObject: StringOrObjectType
-    meta?: StringOrObjectType
-    datetime?: Date
-  }): void {
-    const { type, messageObject, meta, datetime = new Date() } = params
-
+  public log(
+    params: { type: LogLevelType; meta?: ObjectType; datetime?: Date; prefix?: string },
+    ...msgs: StringOrObjectType[]
+  ): void {
+    const { type, meta, prefix, datetime = new Date() } = params
     const fnName = SimpleConsoleLog.LogTypeToFunction(type)
 
     /* eslint-disable no-console*/
-    if (typeof messageObject === 'object') console[fnName](`${datetime.toISOString()} - ${type.toUpperCase()}:`, messageObject)
-    else console[fnName](`${datetime.toISOString()} - ${type.toUpperCase()}: ${messageObject}`)
-
+    msgs.forEach((msg, ix) => {
+      if (ix === 0) {
+        console[fnName](`${datetime.toISOString()} - ${type.toUpperCase()}: ${prefix ?? ''}`, msg)
+      } else {
+        console[fnName](msg)
+      }
+    })
     if (meta) console[fnName](meta)
     /* eslint-enable no-console*/
   }

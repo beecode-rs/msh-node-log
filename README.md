@@ -12,15 +12,20 @@ This project is intended to be used in typescript project to help with logging n
 <!-- toc -->
 
 - [Install](#install)
+- [Diagram](#diagram)
 - [Logger Strategy](#logger-strategy)
-  - [NoLogger](#nologger)
-  - [ConsoleLogger](#consolelogger)
+  * [NoLogger](#nologger)
+  * [ConsoleLogger](#consolelogger)
 
 <!-- tocstop -->
 
 ## Install
 
 `npm i @beecode/msh-node-log`
+
+## Diagram
+
+![vision-diagram](resource/doc/vision/vision.svg)
 
 ## Logger Strategy
 

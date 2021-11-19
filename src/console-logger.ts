@@ -1,18 +1,37 @@
 import { ConsoleLogStrategy } from './console-log-strategy/console-log-strategy'
 import { SimpleConsoleLog } from './console-log-strategy/simple-console-log'
 import { LogLevelType } from './log-level-type'
-import { LoggerStrategy, StringOrObjectType } from './logger-strategy'
+import { LoggerStrategy, LoggerStrategyParams, ObjectType, StringOrObjectType } from './logger-strategy'
 import { typeUtil } from './util/type-util'
+
+export type ConsoleLoggerParams = {
+  consoleLogStrategy?: ConsoleLogStrategy
+} & LoggerStrategyParams
 
 export class ConsoleLogger implements LoggerStrategy {
   protected readonly _logLevel: LogLevelType
   protected readonly _consoleLogStrategy: ConsoleLogStrategy
+  protected readonly _messagePrefix?: string
+  protected readonly _meta?: ObjectType
 
-  constructor(params: { logLevel?: LogLevelType; consoleLogStrategy?: ConsoleLogStrategy } = {}) {
-    const { logLevel = LogLevelType.ERROR, consoleLogStrategy = new SimpleConsoleLog() } = params
-
+  constructor({
+    logLevel = LogLevelType.ERROR,
+    consoleLogStrategy = new SimpleConsoleLog(),
+    messagePrefix,
+    meta,
+  }: ConsoleLoggerParams = {}) {
     this._logLevel = logLevel
     this._consoleLogStrategy = consoleLogStrategy
+    this._messagePrefix = messagePrefix
+    this._meta = meta
+  }
+
+  public clone(params: LoggerStrategyParams = {}): LoggerStrategy {
+    return new ConsoleLogger({
+      meta: (this._meta || params.meta) && { ...this._meta, ...params.meta },
+      messagePrefix: params.messagePrefix ?? this._messagePrefix,
+      logLevel: params.logLevel ?? this._logLevel,
+    })
   }
 
   public static LogLevelToInt(logLevel: LogLevelType): number {
@@ -34,24 +53,24 @@ export class ConsoleLogger implements LoggerStrategy {
     return ConsoleLogger.LogLevelToInt(this._logLevel) >= ConsoleLogger.LogLevelToInt(currentLevel)
   }
 
-  protected _logMessage(type: LogLevelType, messageObject: StringOrObjectType, meta?: StringOrObjectType): void {
+  protected _logMessage(type: LogLevelType, ...messageObjects: StringOrObjectType[]): void {
     if (!this._shouldLog(type)) return
-    this._consoleLogStrategy.log({ type, messageObject, meta })
+    this._consoleLogStrategy.log({ type, meta: this._meta, prefix: this._messagePrefix }, ...messageObjects)
   }
 
-  public debug(messageObject: StringOrObjectType, meta?: StringOrObjectType): void {
-    this._logMessage(LogLevelType.DEBUG, messageObject, meta)
+  public debug(...messageObjects: StringOrObjectType[]): void {
+    this._logMessage(LogLevelType.DEBUG, ...messageObjects)
   }
 
-  public info(messageObject: StringOrObjectType, meta?: StringOrObjectType): void {
-    this._logMessage(LogLevelType.INFO, messageObject, meta)
+  public info(...messageObjects: StringOrObjectType[]): void {
+    this._logMessage(LogLevelType.INFO, ...messageObjects)
   }
 
-  public warn(messageObject: StringOrObjectType, meta?: StringOrObjectType): void {
-    this._logMessage(LogLevelType.WARN, messageObject, meta)
+  public warn(...messageObjects: StringOrObjectType[]): void {
+    this._logMessage(LogLevelType.WARN, ...messageObjects)
   }
 
-  public error(messageObject: StringOrObjectType, meta?: StringOrObjectType): void {
-    this._logMessage(LogLevelType.ERROR, messageObject, meta)
+  public error(...messageObjects: StringOrObjectType[]): void {
+    this._logMessage(LogLevelType.ERROR, ...messageObjects)
   }
 }

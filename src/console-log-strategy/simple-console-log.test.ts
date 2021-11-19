@@ -24,41 +24,75 @@ describe('SimpleConsoleLog', () => {
   describe('log', () => {
     it('should call console.log with string', () => {
       const msg = 'test'
-      simpleConsoleLog.log({ type: LogLevelType.DEBUG, messageObject: msg, datetime: mockDateTime })
+      simpleConsoleLog.log({ type: LogLevelType.DEBUG, datetime: mockDateTime }, msg)
       assert.calledOnce(stub_console_log)
-      assert.calledWith(stub_console_log, `${mockDateTimeStr} - DEBUG: ${msg}`)
+      assert.calledWith(stub_console_log, `${mockDateTimeStr} - DEBUG: `, msg)
     })
 
     it('should call console.warn with string', () => {
       const msg = 'test'
-      simpleConsoleLog.log({ type: LogLevelType.WARN, messageObject: msg, datetime: mockDateTime })
+      simpleConsoleLog.log({ type: LogLevelType.WARN, datetime: mockDateTime }, msg)
       assert.calledOnce(stub_console_warn)
-      assert.calledWith(stub_console_warn, `${mockDateTimeStr} - WARN: ${msg}`)
+      assert.calledWith(stub_console_warn, `${mockDateTimeStr} - WARN: `, msg)
+    })
+
+    it('should call console.warn with string and prefix', () => {
+      const msg = 'test'
+      const prefix = 'Prefix'
+      simpleConsoleLog.log({ type: LogLevelType.WARN, datetime: mockDateTime, prefix }, msg)
+      assert.calledOnce(stub_console_warn)
+      assert.calledWith(stub_console_warn, `${mockDateTimeStr} - WARN: ${prefix}`, msg)
+    })
+
+    it('should call console.warn with multiple string, prefix and meta', () => {
+      const msg = 'test'
+      const msg1 = 'test1'
+      const prefix = 'Prefix'
+      const meta = { m: 'test' }
+      simpleConsoleLog.log({ type: LogLevelType.WARN, datetime: mockDateTime, prefix, meta }, msg, msg1)
+      assert.calledThrice(stub_console_warn)
+      assert.calledWith(stub_console_warn.getCall(0), `${mockDateTimeStr} - WARN: ${prefix}`, msg)
+      assert.calledWith(stub_console_warn.getCall(1), msg1)
+      assert.calledWith(stub_console_warn.getCall(2), meta)
+    })
+
+    it('should call console.warn with multiple string', () => {
+      const msg = 'test'
+      const msg1 = 'test1'
+      const msg2 = 'test2'
+      simpleConsoleLog.log({ type: LogLevelType.WARN, datetime: mockDateTime }, msg, msg1, msg2)
+      assert.calledThrice(stub_console_warn)
+
+      assert.calledWith(stub_console_warn.getCall(0), `${mockDateTimeStr} - WARN: `, msg)
+      assert.calledWith(stub_console_warn.getCall(1), msg1)
+      assert.calledWith(stub_console_warn.getCall(2), msg2)
     })
 
     it('should call console.log with object', () => {
       const obj = { test: 'test' }
-      simpleConsoleLog.log({ type: LogLevelType.INFO, messageObject: obj, datetime: mockDateTime })
+      simpleConsoleLog.log({ type: LogLevelType.INFO, datetime: mockDateTime }, obj)
       assert.calledOnce(stub_console_info)
-      assert.calledWith(stub_console_info, `${mockDateTimeStr} - INFO:`, obj)
+      assert.calledWith(stub_console_info, `${mockDateTimeStr} - INFO: `, obj)
     })
 
     it('should call console.log with two arguments (meta:object)', () => {
       const msg = 'test'
       const metaObj = { test: 'test' }
-      simpleConsoleLog.log({ type: LogLevelType.ERROR, messageObject: msg, meta: metaObj, datetime: mockDateTime })
+      simpleConsoleLog.log({ type: LogLevelType.ERROR, meta: metaObj, datetime: mockDateTime }, msg)
       assert.calledTwice(stub_console_error)
-      assert.calledWith(stub_console_error.getCall(0), `${mockDateTimeStr} - ERROR: ${msg}`)
+      assert.calledWith(stub_console_error.getCall(0), `${mockDateTimeStr} - ERROR: `, msg)
       assert.calledWith(stub_console_error.getCall(1), metaObj)
     })
 
-    it('should call console.log with two arguments (meta:string)', () => {
+    it('should call console.log with multiple messages and meta', () => {
       const msg = 'test'
-      const metaString = 'meta test'
-      simpleConsoleLog.log({ type: LogLevelType.ERROR, messageObject: msg, meta: metaString, datetime: mockDateTime })
-      assert.calledTwice(stub_console_error)
-      assert.calledWith(stub_console_error.getCall(0), `${mockDateTimeStr} - ERROR: ${msg}`)
-      assert.calledWith(stub_console_error.getCall(1), metaString)
+      const msg1 = 'test1'
+      const metaObj = { test: 'test' }
+      simpleConsoleLog.log({ type: LogLevelType.ERROR, meta: metaObj, datetime: mockDateTime }, msg, msg1)
+      assert.calledThrice(stub_console_error)
+      assert.calledWith(stub_console_error.getCall(0), `${mockDateTimeStr} - ERROR: `, msg)
+      assert.calledWith(stub_console_error.getCall(1), msg1)
+      assert.calledWith(stub_console_error.getCall(2), metaObj)
     })
   })
 

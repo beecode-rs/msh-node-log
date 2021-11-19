@@ -1,4 +1,5 @@
 import { mockConsoleLogStrategyFactory } from './console-log-strategy/console-log-strategy.test'
+import { SimpleConsoleLog } from './console-log-strategy/simple-console-log'
 import { ConsoleLogger } from './console-logger'
 import { LogLevelType } from './log-level-type'
 import { expect } from 'chai'
@@ -97,7 +98,7 @@ describe('ConsoleLogger', () => {
       assert.calledOnce(stub_logger_shouldLog)
       assert.calledWith(stub_logger_shouldLog, LogLevelType.ERROR)
       assert.calledOnce(consoleLogStrategy.log)
-      assert.calledWith(consoleLogStrategy.log, { type: 'error', messageObject: 'test message', meta: undefined })
+      assert.calledWith(consoleLogStrategy.log, { type: 'error', meta: undefined, prefix: undefined }, 'test message')
     })
   })
 
@@ -134,6 +135,44 @@ describe('ConsoleLogger', () => {
       logger.debug(dummyMessage, dummyObject)
       assert.calledOnce(stub_logger_logMessage)
       assert.calledWith(stub_logger_logMessage, LogLevelType.DEBUG, dummyMessage, dummyObject)
+    })
+  })
+
+  describe('clone', () => {
+    it('should just clone logger', () => {
+      const toClone = new ConsoleLogger({
+        logLevel: LogLevelType.DEBUG,
+        meta: { some: 'meta' },
+        messagePrefix: 'somePrefix',
+        consoleLogStrategy: new SimpleConsoleLog(),
+      })
+
+      const clonedLogger = toClone.clone()
+
+      expect(clonedLogger['_meta']).to.deep.equal({ some: 'meta' })
+      expect(clonedLogger['_messagePrefix']).to.equal('somePrefix')
+      expect(clonedLogger['_logLevel']).to.equal(LogLevelType.DEBUG)
+      expect(clonedLogger['_consoleLogStrategy'] instanceof SimpleConsoleLog).to.be.true
+      expect(clonedLogger).not.to.equal(toClone)
+    })
+    it('should override all values', () => {
+      const toClone = new ConsoleLogger({
+        logLevel: LogLevelType.DEBUG,
+        meta: { some: 'meta' },
+        messagePrefix: 'somePrefix',
+        consoleLogStrategy: new SimpleConsoleLog(),
+      })
+
+      const clonedLogger = toClone.clone({
+        meta: { additional: 'data' },
+        messagePrefix: 'overridePrefix',
+        logLevel: LogLevelType.INFO,
+      })
+
+      expect(clonedLogger['_meta']).to.deep.equal({ some: 'meta', additional: 'data' })
+      expect(clonedLogger['_messagePrefix']).to.equal('overridePrefix')
+      expect(clonedLogger['_logLevel']).to.equal(LogLevelType.INFO)
+      expect(clonedLogger['_consoleLogStrategy'] instanceof SimpleConsoleLog).to.be.true
     })
   })
 })

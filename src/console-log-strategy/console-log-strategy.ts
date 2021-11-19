@@ -1,6 +1,9 @@
 import { LogLevelType } from '../log-level-type'
-import { StringOrObjectType } from '../logger-strategy'
+import { ObjectType, StringOrObjectType } from '../logger-strategy'
 
 export interface ConsoleLogStrategy {
-  log(params: { type: LogLevelType; messageObject: StringOrObjectType; meta?: StringOrObjectType; datetime?: Date }): void
+  log(
+    params: { type: LogLevelType; meta?: ObjectType; datetime?: Date; prefix?: string },
+    ...messageObjects: StringOrObjectType[]
+  ): void
 }
