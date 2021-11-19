@@ -1,3 +1,10 @@
+# [2.2.0](https://github.com/beecode-rs/msh-node-log/compare/v2.1.0...v2.2.0) (2021-11-19)
+
+
+### Features
+
+* console-logger accepts params like console.log() ([b835778](https://github.com/beecode-rs/msh-node-log/commit/b83577897d353190488126c7a1d4ccb5932a8deb))
+
 # [2.1.0](https://github.com/beecode-rs/msh-node-log/compare/v2.0.2...v2.1.0) (2021-11-14)
 
 
