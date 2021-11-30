@@ -16,7 +16,7 @@
         # _meta: ObjectType
         # _shouldLog(currentLevel: LogLevelType): boolean
         + clone(params: LoggerStrategyParams = {}): LoggerStrategy
-        constructor({\n\n    logLevel = LogLevelType.ERROR,\n\n    consoleLogStrategy = new SimpleConsoleLog(),\n\n    messagePrefix,\n\n    meta,\n\n  \n}: ConsoleLoggerParams = {\n\n})
+       + constructor({\n\n    logLevel = LogLevelType.ERROR,\n\n    consoleLogStrategy = new SimpleConsoleLog(),\n\n    messagePrefix,\n\n    meta,\n\n  \n}: ConsoleLoggerParams = {\n\n})
         + debug(...messageObjects: StringOrObjectType[]): void
         + error(...messageObjects: StringOrObjectType[]): void
         + info(...messageObjects: StringOrObjectType[]): void

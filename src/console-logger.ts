@@ -14,7 +14,7 @@ export class ConsoleLogger implements LoggerStrategy {
   protected readonly _messagePrefix?: string
   protected readonly _meta?: ObjectType
 
-  constructor({
+  public constructor({
     logLevel = LogLevelType.ERROR,
     consoleLogStrategy = new SimpleConsoleLog(),
     messagePrefix,
