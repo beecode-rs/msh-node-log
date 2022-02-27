@@ -1,3 +1,10 @@
+## [2.2.2](https://github.com/beecode-rs/msh-node-log/compare/v2.2.1...v2.2.2) (2022-02-27)
+
+
+### Bug Fixes
+
+* update package.json ([7a9e4c5](https://github.com/beecode-rs/msh-node-log/commit/7a9e4c5f3e489333ade2e6c3fd908c8f93a6b65a))
+
 ## [2.2.1](https://github.com/beecode-rs/msh-node-log/compare/v2.2.0...v2.2.1) (2021-11-22)
 
 
