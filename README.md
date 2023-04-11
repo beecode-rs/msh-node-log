@@ -1,9 +1,9 @@
-[![Build Status](https://beecode.semaphoreci.com/badges/msh-node-log/branches/main.svg?style=shields)](https://beecode.semaphoreci.com/projects/msh-node-log)
-[![codecov](https://codecov.io/gh/beecode-rs/msh-node-log/branch/main/graph/badge.svg?token=KDT5MPESF4)](https://codecov.io/gh/beecode-rs/msh-node-log)
-[![GitHub license](https://img.shields.io/github/license/beecode-rs/msh-node-log)](https://github.com/beecode-rs/msh-node-log/blob/main/LICENSE)  
-[![NPM](https://nodei.co/npm/@beecode/msh-node-log.png)](https://nodei.co/npm/@beecode/msh-node-log)
+[![Build Status](https://beecode.semaphoreci.com/badges/msh-logger/branches/main.svg?style=shields)](https://beecode.semaphoreci.com/projects/msh-logger)
+[![codecov](https://codecov.io/gh/beecode-rs/msh-logger/branch/main/graph/badge.svg?token=KDT5MPESF4)](https://codecov.io/gh/beecode-rs/msh-logger)
+[![GitHub license](https://img.shields.io/github/license/beecode-rs/msh-logger)](https://github.com/beecode-rs/msh-logger/blob/main/LICENSE)  
+[![NPM](https://nodei.co/npm/@beecode/msh-logger.png)](https://nodei.co/npm/@beecode/msh-logger)
 
-# msh-node-log
+# msh-logger
 
 Micro-service helper: node environment
 
@@ -21,7 +21,7 @@ This project is intended to be used in typescript project to help with logging n
 
 ## Install
 
-`npm i @beecode/msh-node-log`
+`npm i @beecode/msh-logger`
 
 ## Diagram
 

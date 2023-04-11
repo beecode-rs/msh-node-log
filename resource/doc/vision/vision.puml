@@ -1,96 +1,141 @@
 @startuml
-    folder "src" as src_b874d07 {
-      card console_logger_params_d9ae554f [
-        ConsoleLoggerParams
-        ---
-        {
-          consoleLogStrategy?: ConsoleLogStrategy
-        } & LoggerStrategyParams
-      ]
-      class "ConsoleLogger" as console_logger_d9ae554f {
-        + LogLevelToInt(logLevel: LogLevelType): number
-        # _consoleLogStrategy: ConsoleLogStrategy
-        # _logLevel: LogLevelType
-        # _logMessage(type: LogLevelType,\n ...messageObjects: StringOrObjectType[]): void
-        # _messagePrefix: string
-        # _meta: ObjectType
-        # _shouldLog(currentLevel: LogLevelType): boolean
-        + clone(params: LoggerStrategyParams = {}): LoggerStrategy
-       + constructor({\n\n    logLevel = LogLevelType.ERROR,\n\n    consoleLogStrategy = new SimpleConsoleLog(),\n\n    messagePrefix,\n\n    meta,\n\n  \n}: ConsoleLoggerParams = {\n\n})
-        + debug(...messageObjects: StringOrObjectType[]): void
-        + error(...messageObjects: StringOrObjectType[]): void
-        + info(...messageObjects: StringOrObjectType[]): void
-        + warn(...messageObjects: StringOrObjectType[]): void
-      }
-      enum "LogLevelType" as log_level_type_94add8b {
+    folder "src" as src_7c70edc8 {
+      enum "LogLevelMapper" as log_level_mapper_d3d8c568 {
         DEBUG = 'debug'
         ERROR = 'error'
         INFO = 'info'
         WARN = 'warn'
       }
-      card object_type_765b9703 [
-        ObjectType
-        ---
-        { [key: string]: any }
-      ]
-      card string_or_object_type_765b9703 [
-        StringOrObjectType
-        ---
-        string | ObjectType
-      ]
-      card logger_strategy_params_765b9703 [
-        LoggerStrategyParams
-        ---
-        {
-          logLevel?: LogLevelType
-          messagePrefix?: string
-          meta?: ObjectType
+'      object "LoggerStrategyParams" as logger_strategy_params_47299faa {
+'          src/logger-strategy:
+'      }
+'      object "StringOrObjectType" as string_or_object_type_47299faa {
+'          src/logger-strategy:
+'      }
+'      object "LoggerStrategy" as logger_strategy_47299faa {
+'          src/logger-strategy:
+'      }
+'      object "LogLevelMapper" as log_level_mapper_8623b021 {
+'          src/log-level-mapper:
+'      }
+'      object "ObjectType" as object_type_47299faa {
+'          src/logger-strategy:
+'      }
+      folder "logger-strategy" as logger_strategy_2c5d94c5 {
+        class "LoggerStrategyVoid" as logger_strategy_void_9618f938 {
+            clone(_?: LoggerStrategyParams): LoggerStrategyVoid
+            debug(_: StringOrObjectType,\n     __?: StringOrObjectType): void
+            error(_: StringOrObjectType,\n     __?: StringOrObjectType): void
+            info(_: StringOrObjectType,\n     __?: StringOrObjectType): void
+            warn(_: StringOrObjectType,\n     __?: StringOrObjectType): void
         }
-      ]
-      interface "LoggerStrategy" as logger_strategy_765b9703 {
-        + debug(...messageObjects: StringOrObjectType[]): void
-        + info(...messageObjects: StringOrObjectType[]): void
-        + warn(...messageObjects: StringOrObjectType[]): void
-        + error(...messageObjects: StringOrObjectType[]): void
-        + clone(overrideParams?: LoggerStrategyParams): LoggerStrategy
-      }
-      class "NoLogger" as no_logger_efb5639 {
-        + clone(_?: LoggerStrategyParams): NoLogger
-        + debug(_: StringOrObjectType,\n __?: StringOrObjectType): void
-        + error(_: StringOrObjectType,\n __?: StringOrObjectType): void
-        + info(_: StringOrObjectType,\n __?: StringOrObjectType): void
-        + warn(_: StringOrObjectType,\n __?: StringOrObjectType): void
-      }
-      folder "console-log-strategy" as console_log_strategy_5838fe20 {
-        interface "ConsoleLogStrategy" as console_log_strategy_7d0f5d8e {
-          + log(params: {\n type: LogLevelType;\n meta?: ObjectType;\n datetime?: Date;\n prefix?: string \n},\n ...messageObjects: StringOrObjectType[]): void
+        card object_type_6ce23852 [
+          ObjectType
+          ---
+          { [key: string]: any }
+        ]
+        card string_or_object_type_6ce23852 [
+          StringOrObjectType
+          ---
+          string | ObjectType
+        ]
+        card logger_strategy_params_6ce23852 [
+          LoggerStrategyParams
+          ---
+          {
+            logLevel?: LogLevelMapper
+            messagePrefix?: string
+            meta?: ObjectType
+          }
+        ]
+        interface "LoggerStrategy" as logger_strategy_6ce23852 {
+          +  debug(...messageObjects: StringOrObjectType[]): void
+          +  info(...messageObjects: StringOrObjectType[]): void
+          +  warn(...messageObjects: StringOrObjectType[]): void
+          +  error(...messageObjects: StringOrObjectType[]): void
+          +  clone(overrideParams?: LoggerStrategyParams): LoggerStrategy
         }
-        class "NewRelicJsonConsoleLog" as new_relic_json_console_log_cea23840 {
-          # _joinDefined(prefix?: string,\n msg?: string): string
-          + log(params: {\n type: LogLevelType;\n meta?: ObjectType;\n datetime?: Date;\n prefix?: string \n},\n ...msgs: StringOrObjectType[]): void
-        }
-        class "SimpleConsoleLog" as simple_console_log_8617eebb {
-          + LogTypeToFunction(type: LogLevelType): 'log' | 'info' | 'warn' | 'error'
-          + log(params: {\n type: LogLevelType;\n meta?: ObjectType;\n datetime?: Date;\n prefix?: string \n},\n ...msgs: StringOrObjectType[]): void
+        folder "console" as console_933e5ffd {
+          card console_logger_params_e43a732a [
+            ConsoleLoggerParams
+            ---
+            {
+              consoleLogStrategy?: ConsoleLogStrategy
+            } & LoggerStrategyParams
+          ]
+          class "LoggerStrategyConsole" as logger_strategy_console_e43a732a {
+              LogLevelToInt(logLevel: LogLevelMapper): number
+            #  _consoleLogStrategy: ConsoleLogStrategy
+            #  _logLevel: LogLevelMapper
+            #  _logMessage(type: LogLevelMapper,\n     ...messageObjects: StringOrObjectType[]): void
+            #  _messagePrefix: string
+            #  _meta: ObjectType
+            #  _shouldLog(currentLevel: LogLevelMapper): boolean
+              clone(params?: LoggerStrategyParams): LoggerStrategyConsole
+              constructor(params: ConsoleLoggerParams = {}):
+              debug(...messageObjects: StringOrObjectType[]): void
+              error(...messageObjects: StringOrObjectType[]): void
+              info(...messageObjects: StringOrObjectType[]): void
+              warn(...messageObjects: StringOrObjectType[]): void
+          }
+'          object "ConsoleLogStrategy" as console_log_strategy_d0d70d4f {
+'              src/logger-strategy/console/log-strategy:
+'          }
+          folder "log-strategy" as log_strategy_ebb8b700 {
+            class "ConsoleLogStrategySimple" as console_log_strategy_simple_3f5f1de7 {
+                LogTypeToFunctionName(type: LogLevelMapper): 'log' | 'info' | 'warn' | 'error'
+                log(params: {\n     type: LogLevelMapper;\n     meta?: ObjectType;\n     datetime?: Date;\n     prefix?: string \n},\n     ...msgs: StringOrObjectType[]): void
+            }
+            class "ConsoleLogStrategyNewRelicJson" as console_log_strategy_new_relic_json_a992bd1c {
+              #  _joinDefined(prefix?: string,\n     msg?: string): string
+                log(params: {\n     type: LogLevelMapper;\n     meta?: ObjectType;\n     datetime?: Date;\n     prefix?: string \n},\n     ...msgs: StringOrObjectType[]): void
+            }
+            interface "ConsoleLogStrategy" as console_log_strategy_c357dab7 {
+              +  log(params: {\n     type: LogLevelMapper;\n     meta?: ObjectType;\n     datetime?: Date;\n     prefix?: string \n},\n     ...messageObjects: StringOrObjectType[]): void
+            }
+
+          }
         }
       }
     }
-  new_relic_json_console_log_cea23840 -up-> log_level_type_94add8b
-  new_relic_json_console_log_cea23840 -up-> object_type_765b9703
-  new_relic_json_console_log_cea23840 .up.|> console_log_strategy_7d0f5d8e
-  simple_console_log_8617eebb -up-> log_level_type_94add8b
-  simple_console_log_8617eebb -up-> object_type_765b9703
-  simple_console_log_8617eebb -up-> simple_console_log_8617eebb
-  simple_console_log_8617eebb .up.|> console_log_strategy_7d0f5d8e
-  console_logger_d9ae554f -up-> console_log_strategy_7d0f5d8e
-  console_logger_d9ae554f -up-> log_level_type_94add8b
-  console_logger_d9ae554f -up-> logger_strategy_params_765b9703
-  console_logger_d9ae554f -up-> object_type_765b9703
-  console_logger_d9ae554f -up-> console_logger_params_d9ae554f
-  console_logger_d9ae554f -up-> console_logger_d9ae554f
-  console_logger_d9ae554f .up.|> logger_strategy_765b9703
-  no_logger_efb5639 -up-> logger_strategy_params_765b9703
-  no_logger_efb5639 -up-> string_or_object_type_765b9703
-  no_logger_efb5639 -up-> no_logger_efb5639
-  no_logger_efb5639 .up.|> logger_strategy_765b9703
+    folder "@beecode/msh-util/lib" as beecode_msh_util_lib_4da8041d {
+      object "typeUtil" as type_util_2269edcc {
+          @beecode/msh-util/lib/type-util:
+      }
+
+    }
+
+  logger_strategy_6ce23852 -up-> logger_strategy_params_6ce23852
+  logger_strategy_6ce23852 -up-> string_or_object_type_6ce23852
+  logger_strategy_6ce23852 -up-> logger_strategy_6ce23852
+  logger_strategy_6ce23852 .up.|> logger_strategy_6ce23852
+
+
+
+
+
+  logger_strategy_console_e43a732a -up-> type_util_2269edcc
+  logger_strategy_console_e43a732a -up-> log_level_mapper_d3d8c568
+  logger_strategy_console_e43a732a -up-> logger_strategy_params_6ce23852
+  logger_strategy_console_e43a732a -up-> object_type_6ce23852
+  logger_strategy_console_e43a732a -up-> console_log_strategy_c357dab7
+  logger_strategy_console_e43a732a -up-> console_logger_params_e43a732a
+  logger_strategy_console_e43a732a -up-> logger_strategy_console_e43a732a
+  logger_strategy_console_e43a732a .up.|> logger_strategy_6ce23852
+  console_log_strategy_simple_3f5f1de7 -up-> type_util_2269edcc
+  console_log_strategy_simple_3f5f1de7 -up-> log_level_mapper_d3d8c568
+  console_log_strategy_simple_3f5f1de7 -up-> object_type_6ce23852
+  console_log_strategy_simple_3f5f1de7 -up-> console_log_strategy_simple_3f5f1de7
+  console_log_strategy_simple_3f5f1de7 .up.|> console_log_strategy_c357dab7
+  console_log_strategy_new_relic_json_a992bd1c -up-> log_level_mapper_d3d8c568
+  console_log_strategy_new_relic_json_a992bd1c -up-> object_type_6ce23852
+  console_log_strategy_new_relic_json_a992bd1c .up.|> console_log_strategy_c357dab7
+
+
+
+
+
+
+
+
 @enduml

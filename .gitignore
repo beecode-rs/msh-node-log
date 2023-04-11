@@ -1,6 +1,5 @@
-.idea
-!.idea/runConfigurations
-.vscode
-.nyc_output
-coverage
-node_modules
+/.idea
+/!.idea/runConfigurations
+/coverage
+/node_modules
+/packages

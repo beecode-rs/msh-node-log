@@ -1,2 +1,3 @@
-export * from './logger-strategy'
-export * from './log-level-type'
+export * from 'src/logger-strategy'
+
+export * from 'src/log-level'
